@@ -1,25 +1,25 @@
 <div style="float: right;">
-	<a href="https://github.com/glhd/laravel-package-template/actions" target="_blank">
+	<a href="https://github.com/glhd/modular-livewire/actions" target="_blank">
 		<img 
-			src="https://github.com/glhd/laravel-package-template/workflows/PHPUnit/badge.svg" 
+			src="https://github.com/glhd/modular-livewire/workflows/PHPUnit/badge.svg" 
 			alt="Build Status" 
 		/>
 	</a>
-	<a href="https://codeclimate.com/github/glhd/laravel-package-template/test_coverage" target="_blank">
+	<a href="https://codeclimate.com/github/glhd/modular-livewire/test_coverage" target="_blank">
 		<img 
 			src="https://api.codeclimate.com/v1/badges/change-me/test_coverage" 
 			alt="Coverage Status" 
 		/>
 	</a>
-	<a href="https://packagist.org/packages/glhd/laravel-package-template" target="_blank">
+	<a href="https://packagist.org/packages/glhd/modular-livewire" target="_blank">
         <img 
-            src="https://poser.pugx.org/glhd/laravel-package-template/v/stable" 
+            src="https://poser.pugx.org/glhd/modular-livewire/v/stable" 
             alt="Latest Stable Release" 
         />
 	</a>
 	<a href="./LICENSE" target="_blank">
         <img 
-            src="https://poser.pugx.org/glhd/laravel-package-template/license" 
+            src="https://poser.pugx.org/glhd/modular-livewire/license" 
             alt="MIT Licensed" 
         />
     </a>
@@ -31,7 +31,7 @@
     </a>
 </div>
 
-# laravel-package-template
+# modular-livewire
 
 ## Installation
 
