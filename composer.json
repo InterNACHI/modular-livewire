@@ -1,38 +1,43 @@
 {
-  "name": "glhd/modular-livewire",
-  "description": "",
+  "name": "internachi/modular-livewire",
+  "description": "Livewire plugin for internachi/modular",
   "keywords": [
-    "laravel"
+    "laravel",
+    "modules",
+    "modular",
+    "livewire"
   ],
   "authors": [
     {
       "name": "Chris Morrell",
       "homepage": "http://www.cmorrell.com"
+    },
+    {
+        "name": "Kevin Ullyott",
+        "homepage": "https://kevinullyott.com"
     }
   ],
   "type": "library",
   "license": "MIT",
   "require": {
-    "illuminate/support": "^10|^11|dev-master",
-    "ext-json": "*"
+    "php": ">=8.3",
+    "illuminate/support": "^11|^12|^13|dev-master|dev-main",
+    "internachi/modular": "^3.0",
+    "livewire/livewire": "^3.0"
   },
   "require-dev": {
-    "orchestra/testbench": "^8|^9|10.x-dev|dev-master",
+    "orchestra/testbench": "^9.11|^10.0|^11.0|dev-master|dev-main",
     "friendsofphp/php-cs-fixer": "^3.34",
-    "mockery/mockery": "^1.6",
-    "phpunit/phpunit": "^10.5"
+    "phpunit/phpunit": "^10.5|^11.5|^12.5|^13.0"
   },
   "autoload": {
     "psr-4": {
-      "Glhd\\ModularLivewire\\": "src/"
+      "InterNACHI\\ModularLivewire\\": "src/"
     }
   },
   "autoload-dev": {
-    "classmap": [
-      "tests/TestCase.php"
-    ],
     "psr-4": {
-      "Glhd\\ModularLivewire\\Tests\\": "tests/"
+      "InterNACHI\\ModularLivewire\\Tests\\": "tests/"
     }
   },
   "scripts": {
@@ -42,7 +47,7 @@
   "extra": {
     "laravel": {
       "providers": [
-        "Glhd\\ModularLivewire\\Support\\ModularLivewireServiceProvider"
+        "InterNACHI\\ModularLivewire\\Support\\ModularLivewireServiceProvider"
       ]
     }
   },

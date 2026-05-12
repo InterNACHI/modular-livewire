@@ -1,9 +1,12 @@
 <?php
 
-namespace Glhd\ModularLivewire\Tests;
+namespace InterNACHI\ModularLivewire\Tests;
 
-use Glhd\ModularLivewire\Support\ModularLivewireServiceProvider;
-use Illuminate\Container\Container;
+use InterNACHI\Modular\Support\Facades\Modules;
+use InterNACHI\Modular\Support\ModularizedCommandsServiceProvider;
+use InterNACHI\Modular\Support\ModularServiceProvider;
+use InterNACHI\ModularLivewire\Support\ModularLivewireServiceProvider;
+use Livewire\LivewireServiceProvider;
 use Orchestra\Testbench\TestCase as Orchestra;
 
 abstract class TestCase extends Orchestra
@@ -11,17 +14,17 @@ abstract class TestCase extends Orchestra
 	protected function getPackageProviders($app)
 	{
 		return [
+			ModularServiceProvider::class,
+			ModularizedCommandsServiceProvider::class,
+			LivewireServiceProvider::class,
 			ModularLivewireServiceProvider::class,
 		];
 	}
 	
 	protected function getPackageAliases($app)
 	{
-		return [];
-	}
-	
-	protected function getApplicationTimezone($app)
-	{
-		return 'America/New_York';
+		return [
+			'Modules' => Modules::class,
+		];
 	}
 }
