@@ -11,6 +11,10 @@
     {
       "name": "Chris Morrell",
       "homepage": "http://www.cmorrell.com"
+    },
+    {
+        "name": "Kevin Ullyott",
+        "homepage": "https://kevinullyott.com"
     }
   ],
   "type": "library",
