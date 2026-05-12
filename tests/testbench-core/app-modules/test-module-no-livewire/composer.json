@@ -1,0 +1,8 @@
+{
+    "name": "test/test-module-no-livewire",
+    "autoload": {
+        "psr-4": {
+            "TestModuleNoLivewire\\": "src/"
+        }
+    }
+}
