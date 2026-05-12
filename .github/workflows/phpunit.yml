@@ -6,40 +6,41 @@ on:
       - main
   pull_request:
   schedule:
-    - cron: '0 14 * * 3' # Run Wednesdays at 2pm EST
+    - cron: "0 14 * * 3" # Run Wednesdays at 2pm EST
 
 jobs:
   php-tests:
-    runs-on: ubuntu-latest
-
     strategy:
       matrix:
-        php: [ 8.2, 8.3, 8.4 ]
-        laravel: [ 11.*, 12.* ]
-        dependency-version: [ stable, lowest ]
-          
+        dependency-version: [stable, lowest]
+        os: [ubuntu, windows]
+        laravel: [11.*, 12.*, 13.*]
+        php: [8.3, 8.4]
+
+    runs-on: "${{ matrix.os }}-latest"
     timeout-minutes: 10
 
-    name: "${{ matrix.php }} / ${{ matrix.laravel }} (${{ matrix.dependency-version }})"
+    name: "${{ matrix.os }}: ${{ matrix.php }} / ${{ matrix.laravel }} (${{ matrix.dependency-version }})"
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v5
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php }}
-          extensions: dom, curl, libxml, mbstring, zip, pcntl, bcmath, intl, iconv
+          extensions: dom, curl, libxml, mbstring, zip, pcntl, bcmath, intl, iconv, fileinfo
           tools: composer:v2
 
       - name: Register composer cache directory
         id: composer-cache
         run: |
-          echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT  
+          echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
 
       - name: Cache dependencies
         uses: actions/cache@v4
+        if: ${{ steps.composer-cache.outputs.dir != '' }}
         with:
           path: ${{ steps.composer-cache.outputs.dir }}
           key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
@@ -48,7 +49,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          composer require --no-interaction --prefer-dist --prefer-${{ matrix.dependency-version }} --update-with-all-dependencies "laravel/framework:${{ matrix.laravel }}"
+          composer require --no-interaction --prefer-dist --update-with-all-dependencies --prefer-${{ matrix.dependency-version }} "illuminate/support:${{ matrix.laravel }}"
 
       - name: Execute tests
         run: vendor/bin/phpunit

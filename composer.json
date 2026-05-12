@@ -21,7 +21,7 @@
   "license": "MIT",
   "require": {
     "php": ">=8.3",
-    "illuminate/support": "^11|^12|dev-master|dev-main",
+    "illuminate/support": "^11|^12|^13|dev-master|dev-main",
     "internachi/modular": "^3.0",
     "livewire/livewire": "^3.0"
   },
