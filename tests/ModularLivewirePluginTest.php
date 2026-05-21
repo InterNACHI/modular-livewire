@@ -5,6 +5,7 @@ namespace InterNACHI\ModularLivewire\Tests;
 use InterNACHI\Modular\Support\FinderFactory;
 use InterNACHI\ModularLivewire\ModularLivewirePlugin;
 use InterNACHI\ModularLivewire\Tests\Concerns\PreloadsAppModules;
+use Livewire\LivewireManager;
 use Livewire\Mechanisms\ComponentRegistry;
 use ReflectionProperty;
 
@@ -50,13 +51,29 @@ class ModularLivewirePluginTest extends TestCase
 		$plugin = $this->app->make(ModularLivewirePlugin::class);
 		$data = collect($plugin->discover($this->app->make(FinderFactory::class)));
 		$plugin->handle($data);
-		
+
+		$expected = [
+			'test-module::test-component' => 'TestModule\\Livewire\\TestComponent',
+			'test-module::sub-dir.nested-component' => 'TestModule\\Livewire\\SubDir\\NestedComponent',
+			'test-module-two::another-component' => 'TestModuleTwo\\Livewire\\AnotherComponent',
+		];
+
+		if (property_exists(LivewireManager::class, 'v4') && LivewireManager::$v4 === true) {
+			$finder = $this->app->make('livewire.finder');
+
+			foreach ($expected as $name => $class) {
+				$this->assertEquals($class, $finder->resolveClassComponentClassName($name));
+			}
+
+			return;
+		}
+
 		$registry = $this->app->make(ComponentRegistry::class);
 		$aliases = (new ReflectionProperty($registry, 'aliases'))->getValue($registry);
-		
-		$this->assertEquals('TestModule\\Livewire\\TestComponent', $aliases['test-module::test-component']);
-		$this->assertEquals('TestModule\\Livewire\\SubDir\\NestedComponent', $aliases['test-module::sub-dir.nested-component']);
-		$this->assertEquals('TestModuleTwo\\Livewire\\AnotherComponent', $aliases['test-module-two::another-component']);
+
+		foreach ($expected as $name => $class) {
+			$this->assertEquals($class, $aliases[$name]);
+		}
 	}
 	
 	public function test_only_boots_when_livewire_is_installed(): void
