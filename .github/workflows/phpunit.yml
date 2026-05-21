@@ -16,11 +16,12 @@ jobs:
         os: [ubuntu, windows]
         laravel: [11.*, 12.*, 13.*]
         php: [8.3, 8.4]
+        livewire: [3.*, 4.*]
 
     runs-on: "${{ matrix.os }}-latest"
     timeout-minutes: 10
 
-    name: "${{ matrix.os }}: ${{ matrix.php }} / ${{ matrix.laravel }} (${{ matrix.dependency-version }})"
+    name: "${{ matrix.os }}: ${{ matrix.php }} / ${{ matrix.laravel }} / ${{ matrix.livewire }} (${{ matrix.dependency-version }})"
 
     steps:
       - name: Checkout code
@@ -49,7 +50,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          composer require --no-interaction --prefer-dist --update-with-all-dependencies --prefer-${{ matrix.dependency-version }} "illuminate/support:${{ matrix.laravel }}"
+          composer require --no-interaction --prefer-dist --update-with-all-dependencies --prefer-${{ matrix.dependency-version }} "illuminate/support:${{ matrix.laravel }}" "livewire/livewire:${{ matrix.livewire }}"
 
       - name: Execute tests
         run: vendor/bin/phpunit
