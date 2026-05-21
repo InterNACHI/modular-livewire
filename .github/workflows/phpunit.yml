@@ -21,7 +21,7 @@ jobs:
     runs-on: "${{ matrix.os }}-latest"
     timeout-minutes: 10
 
-    name: "${{ matrix.os }}: ${{ matrix.php }} / ${{ matrix.laravel }} / livewire ${{ matrix.livewire }} (${{ matrix.dependency-version }})"
+    name: "${{ matrix.os }}: ${{ matrix.php }} / ${{ matrix.laravel }} / ${{ matrix.livewire }} (${{ matrix.dependency-version }})"
 
     steps:
       - name: Checkout code
