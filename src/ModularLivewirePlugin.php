@@ -12,6 +12,7 @@ use InterNACHI\Modular\Support\FinderFactory;
 use InterNACHI\Modular\Support\ModuleFileInfo;
 use InterNACHI\Modular\Support\ModuleRegistry;
 use Livewire\Livewire;
+use Livewire\LivewireManager;
 
 class ModularLivewirePlugin extends Plugin
 {
@@ -19,14 +20,14 @@ class ModularLivewirePlugin extends Plugin
 		protected ModuleRegistry $registry,
 	) {
 	}
-	
+
 	public static function boot(Closure $handler, Application $app): void
 	{
 		if (class_exists(Livewire::class)) {
 			$handler(static::class);
 		}
 	}
-	
+
 	/**
 	 * @return array<int, array{module: string, name: string, fqcn: string}>
 	 */
@@ -49,15 +50,35 @@ class ModularLivewirePlugin extends Plugin
 			])
 			->toArray();
 	}
-	
+
 	/**
 	 * @param Collection<int, array{module: string, name: string, fqcn: string}> $data
 	 */
 	public function handle(Collection $data): void
 	{
+		if (static::isLivewireV4()) {
+			$data->groupBy('module')->each(function(Collection $rows, string $module): void {
+				$moduleConfig = $this->registry->module($module);
+
+				Livewire::addNamespace(
+					namespace: $module,
+					classNamespace: $moduleConfig->qualify('Livewire'),
+					viewPath: $moduleConfig->path('resources/views/livewire'),
+				);
+			});
+
+			return;
+		}
+
 		$data->each(fn(array $row) => Livewire::component(
 			"{$row['module']}::{$row['name']}",
 			$row['fqcn'],
 		));
+	}
+
+	protected static function isLivewireV4(): bool
+	{
+		return property_exists(LivewireManager::class, 'v4')
+			&& LivewireManager::$v4 === true;
 	}
 }
